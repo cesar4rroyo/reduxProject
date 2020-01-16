@@ -3,4 +3,18 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./component/App";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+import { createStore } from "redux";
+import { provider, Provider } from "react-redux";
+import reducers from "./reducers";
+
+const store = createStore(
+    reducers, //todos los reducers
+    {} //estado inicial
+);
+
+ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById("root")
+);
