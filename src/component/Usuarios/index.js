@@ -6,6 +6,23 @@ class Usuarios extends Component {
     componentDidMount() {
         this.props.traerTodos();
     }
+    ponerContenido = () => {
+        if (this.props.cargando) {
+            return <div className="lds-facebook"><div></div><div></div>;
+        }
+        return (
+            <table className="tabla">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Enlace</th>
+                    </tr>
+                </thead>
+                <tbody>{this.ponerFilas()}</tbody>
+            </table>
+        );
+    };
 
     ponerFilas = () =>
         this.props.usuarios.map(usuario => (
@@ -17,20 +34,7 @@ class Usuarios extends Component {
         ));
 
     render() {
-        return (
-            <div>
-                <table className="tabla">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Correo</th>
-                            <th>Enlace</th>
-                        </tr>
-                    </thead>
-                    <tbody>{this.ponerFilas()}</tbody>
-                </table>
-            </div>
-        );
+        return <div>{this.ponerContenido()}</div>;
     }
 }
 const mapStateToProps = reducers => {
