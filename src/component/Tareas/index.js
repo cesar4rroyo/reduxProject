@@ -4,10 +4,13 @@ import { Link } from "react-router-dom";
 import * as tareasActions from "../../actions/tareasActions";
 import Spinner from "../General/Spinner";
 import Fatal from "../General/Fatal";
+import { Redirect } from "react-router-dom";
 
 class Tareas extends Component {
     componentDidMount() {
-        this.props.traerTodas();
+        if (!Object.keys(this.props.tareas).length) {
+            this.props.traerTodas();
+        }
     }
     mostrarContenido = () => {
         const { tareas, cargando, error } = this.props;
@@ -27,7 +30,7 @@ class Tareas extends Component {
         ));
     };
     ponerTareas = usu_id => {
-        const { tareas } = this.props;
+        const { tareas, cambioCheck } = this.props;
         const por_usuario = {
             ...tareas[usu_id]
         };
@@ -36,8 +39,16 @@ class Tareas extends Component {
                 <input
                     type="checkbox"
                     defaultChecked={por_usuario[tar_id].completed}
+                    onChange={() => cambioCheck(usu_id, tar_id)}
                 />
                 {por_usuario[tar_id].title}
+                <button className="m_left">
+                    <Link to={`/tareas/guardar/${usu_id}/${tar_id}`}>
+                        Editar
+                    </Link>
+                    Editar
+                </button>
+                <button className="m_left">Eliminar</button>
             </div>
         ));
     };
